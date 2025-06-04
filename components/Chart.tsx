@@ -11,9 +11,9 @@ import {
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { ChartConfig, ChartContainer } from "@/components/ui/chart";
 import { calculatePercentage, convertFileSize } from "@/lib/utils";
@@ -78,7 +78,7 @@ export const Chart = ({ used = 0 }: { used: number }) => {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-white/70"
                         >
-                          Space used
+                          Espace utilisé
                         </tspan>
                       </text>
                     );
@@ -90,7 +90,7 @@ export const Chart = ({ used = 0 }: { used: number }) => {
         </ChartContainer>
       </CardContent>
       <CardHeader className="chart-details">
-        <CardTitle className="chart-title">Available Storage</CardTitle>
+        <CardTitle className="chart-title">Espace disponible</CardTitle>
         <CardDescription className="chart-description">
           {used ? convertFileSize(used) : "2GB"} / 2GB
         </CardDescription>

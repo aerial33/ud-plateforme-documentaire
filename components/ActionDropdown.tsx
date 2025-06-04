@@ -1,5 +1,7 @@
 "use client";
 
+import { FileDetails, ShareInput } from "@/components/ActionsModalContent";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -15,21 +17,19 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useState } from "react";
-import Image from "next/image";
-import { Models } from "node-appwrite";
-import { actionsDropdownItems } from "@/constants";
-import Link from "next/link";
-import { constructDownloadUrl } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { actionsDropdownItems } from "@/constants";
 import {
   deleteFile,
   renameFile,
   updateFileUsers,
 } from "@/lib/actions/file.actions";
+import { constructDownloadUrl } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FileDetails, ShareInput } from "@/components/ActionsModalContent";
+import { Models } from "node-appwrite";
+import { useState } from "react";
 
 const ActionDropdown = ({ file }: { file: Models.Document }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -59,7 +59,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
         renameFile({ fileId: file.$id, name, extension: file.extension, path }),
       share: () => updateFileUsers({ fileId: file.$id, emails, path }),
       delete: () =>
-        deleteFile({ fileId: file.$id, bucketFileId: file.bucketFileId, path }),
+        deleteFile({ fileId: file.$id, bucketFileId: file.bucketField, path }),
     };
 
     success = await actions[action.value as keyof typeof actions]();
@@ -110,7 +110,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
           )}
           {value === "delete" && (
             <p className="delete-confirmation">
-              Are you sure you want to delete{` `}
+              Êtes-vous sûr de vouloir supprimer{` `}
               <span className="delete-file-name">{file.name}</span>?
             </p>
           )}
@@ -118,10 +118,10 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
         {["rename", "delete", "share"].includes(value) && (
           <DialogFooter className="flex flex-col gap-3 md:flex-row">
             <Button onClick={closeAllModals} className="modal-cancel-button">
-              Cancel
+              Annuler
             </Button>
             <Button onClick={handleAction} className="modal-submit-button">
-              <p className="capitalize">{value}</p>
+              <p className="capitalize">{label}</p>
               {isLoading && (
                 <Image
                   src="/assets/icons/loader.svg"
@@ -163,7 +163,7 @@ const ActionDropdown = ({ file }: { file: Models.Document }) => {
 
                 if (
                   ["rename", "share", "delete", "details"].includes(
-                    actionItem.value,
+                    actionItem.value
                   )
                 ) {
                   setIsModalOpen(true);

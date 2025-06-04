@@ -201,7 +201,7 @@ export const getUsageSummary = (totalSpace: any) => {
       url: "/images",
     },
     {
-      title: "Media",
+      title: "Média",
       size: totalSpace.video.size + totalSpace.audio.size,
       latestDate:
         totalSpace.video.latestDate > totalSpace.audio.latestDate
@@ -211,7 +211,7 @@ export const getUsageSummary = (totalSpace: any) => {
       url: "/media",
     },
     {
-      title: "Others",
+      title: "Autres",
       size: totalSpace.other.size,
       latestDate: totalSpace.other.latestDate,
       icon: "/assets/icons/file-other-light.svg",
@@ -228,7 +228,7 @@ export const getFileTypesParams = (type: string) => {
       return ["image"];
     case "media":
       return ["video", "audio"];
-    case "others":
+    case "autres":
       return ["other"];
     default:
       return ["document"];

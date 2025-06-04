@@ -1,10 +1,10 @@
 "use client";
 
-import Link from "next/link";
-import Image from "next/image";
 import { navItems } from "@/constants";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 interface Props {
   fullName: string;
@@ -42,7 +42,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
               <li
                 className={cn(
                   "sidebar-nav-item",
-                  pathname === url && "shad-active",
+                  pathname === url && "shad-active"
                 )}
               >
                 <Image
@@ -52,7 +52,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
                   height={24}
                   className={cn(
                     "nav-icon",
-                    pathname === url && "nav-icon-active",
+                    pathname === url && "nav-icon-active"
                   )}
                 />
                 <p className="hidden lg:block">{name}</p>
@@ -62,13 +62,13 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
         </ul>
       </nav>
 
-      <Image
+      {/* <Image
         src="/assets/images/files-2.png"
         alt="logo"
         width={506}
         height={418}
         className="w-full"
-      />
+      /> */}
 
       <div className="sidebar-user-info">
         <Image

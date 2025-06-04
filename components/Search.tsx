@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-import Image from "next/image";
-import { Input } from "@/components/ui/input";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { getFiles } from "@/lib/actions/file.actions";
-import { Models } from "node-appwrite";
-import Thumbnail from "@/components/Thumbnail";
 import FormattedDateTime from "@/components/FormattedDateTime";
+import Thumbnail from "@/components/Thumbnail";
+import { Input } from "@/components/ui/input";
+import { getFiles } from "@/lib/actions/file.actions";
+import Image from "next/image";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { Models } from "node-appwrite";
 import { useDebounce } from "use-debounce";
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -47,7 +47,7 @@ const Search = () => {
     setResults([]);
 
     router.push(
-      `/${file.type === "video" || file.type === "audio" ? "media" : file.type + "s"}?query=${query}`,
+      `/${file.type === "video" || file.type === "audio" ? "media" : file.type + "s"}?query=${query}`
     );
   };
 
@@ -62,7 +62,7 @@ const Search = () => {
         />
         <Input
           value={query}
-          placeholder="Search..."
+          placeholder="Rechercher..."
           className="search-input"
           onChange={(e) => setQuery(e.target.value)}
         />
@@ -95,7 +95,7 @@ const Search = () => {
                 </li>
               ))
             ) : (
-              <p className="empty-result">No files found</p>
+              <p className="empty-result">Aucun fichier trouvé</p>
             )}
           </ul>
         )}

@@ -1,21 +1,21 @@
 "use client";
 
+import FileUploader from "@/components/FileUploader";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import Image from "next/image";
-import React, { useState } from "react";
-import { usePathname } from "next/navigation";
-import { Separator } from "@radix-ui/react-separator";
 import { navItems } from "@/constants";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import FileUploader from "@/components/FileUploader";
 import { signOutUser } from "@/lib/actions/user.actions";
+import { cn } from "@/lib/utils";
+import { Separator } from "@radix-ui/react-separator";
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   $id: string;
@@ -79,7 +79,7 @@ const MobileNavigation = ({
                   <li
                     className={cn(
                       "mobile-nav-item",
-                      pathname === url && "shad-active",
+                      pathname === url && "shad-active"
                     )}
                   >
                     <Image
@@ -89,7 +89,7 @@ const MobileNavigation = ({
                       height={24}
                       className={cn(
                         "nav-icon",
-                        pathname === url && "nav-icon-active",
+                        pathname === url && "nav-icon-active"
                       )}
                     />
                     <p>{name}</p>
@@ -114,7 +114,7 @@ const MobileNavigation = ({
                 width={24}
                 height={24}
               />
-              <p>Logout</p>
+              <p>Déconnexion</p>
             </Button>
           </div>
         </SheetContent>

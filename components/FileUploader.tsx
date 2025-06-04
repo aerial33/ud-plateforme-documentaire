@@ -2,15 +2,15 @@
 
 import React, { useCallback, useState } from "react";
 
-import { useDropzone } from "react-dropzone";
-import { Button } from "@/components/ui/button";
-import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
-import Image from "next/image";
 import Thumbnail from "@/components/Thumbnail";
+import { Button } from "@/components/ui/button";
 import { MAX_FILE_SIZE } from "@/constants";
 import { useToast } from "@/hooks/use-toast";
 import { uploadFile } from "@/lib/actions/file.actions";
+import { cn, convertFileToUrl, getFileType } from "@/lib/utils";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useDropzone } from "react-dropzone";
 
 interface Props {
   ownerId: string;
@@ -30,14 +30,14 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
       const uploadPromises = acceptedFiles.map(async (file) => {
         if (file.size > MAX_FILE_SIZE) {
           setFiles((prevFiles) =>
-            prevFiles.filter((f) => f.name !== file.name),
+            prevFiles.filter((f) => f.name !== file.name)
           );
 
           return toast({
             description: (
               <p className="body-2 text-white">
-                <span className="font-semibold">{file.name}</span> is too large.
-                Max file size is 50MB.
+                <span className="font-semibold">{file.name}</span> fichier trop
+                volumineux. La taille maximale est de 50MB.
               </p>
             ),
             className: "error-toast",
@@ -48,23 +48,23 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
           (uploadedFile) => {
             if (uploadedFile) {
               setFiles((prevFiles) =>
-                prevFiles.filter((f) => f.name !== file.name),
+                prevFiles.filter((f) => f.name !== file.name)
               );
             }
-          },
+          }
         );
       });
 
       await Promise.all(uploadPromises);
     },
-    [ownerId, accountId, path],
+    [ownerId, accountId, path]
   );
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   const handleRemoveFile = (
     e: React.MouseEvent<HTMLImageElement, MouseEvent>,
-    fileName: string,
+    fileName: string
   ) => {
     e.stopPropagation();
     setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
@@ -80,11 +80,11 @@ const FileUploader = ({ ownerId, accountId, className }: Props) => {
           width={24}
           height={24}
         />{" "}
-        <p>Upload</p>
+        <p>Télécharger</p>
       </Button>
       {files.length > 0 && (
         <ul className="uploader-preview-list">
-          <h4 className="h4 text-light-100">Uploading</h4>
+          <h4 className="h4 text-light-100">Téléchargement en cours</h4>
 
           {files.map((file, index) => {
             const { type, extension } = getFileType(file.name);
