@@ -1,6 +1,7 @@
 "use client";
 
 import { navItems } from "@/constants";
+import { RpdadLogo } from "@/graphics/LogoRpdad/logo";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -8,31 +9,26 @@ import { usePathname } from "next/navigation";
 
 interface Props {
   fullName: string;
-  avatar: string;
+  avatar?: string;
   email: string;
 }
 
-const Sidebar = ({ fullName, avatar, email }: Props) => {
+const Sidebar = ({ fullName, email }: Props) => {
   const pathname = usePathname();
 
   return (
     <aside className="sidebar">
       <Link href="/">
-        <Image
-          src="/assets/icons/logo-full-brand.svg"
-          alt="logo"
-          width={160}
-          height={50}
-          className="hidden h-auto lg:block"
-        />
+        <RpdadLogo />
 
+        {/* 
         <Image
           src="/assets/icons/logo-brand.svg"
           alt="logo"
           width={52}
           height={52}
           className="lg:hidden"
-        />
+        /> */}
       </Link>
 
       <nav className="sidebar-nav">
@@ -72,7 +68,7 @@ const Sidebar = ({ fullName, avatar, email }: Props) => {
 
       <div className="sidebar-user-info">
         <Image
-          src={avatar}
+          src="/assets/images/avatar.png"
           alt="Avatar"
           width={44}
           height={44}
