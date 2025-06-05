@@ -1,8 +1,8 @@
 "use server";
 
-import { Account, Avatars, Client, Databases, Storage } from "node-appwrite";
 import { appwriteConfig } from "@/lib/appwrite/config";
 import { cookies } from "next/headers";
+import { Account, Avatars, Client, Databases, Storage } from "node-appwrite";
 
 export const createSessionClient = async () => {
   const client = new Client()
@@ -11,9 +11,17 @@ export const createSessionClient = async () => {
 
   const session = (await cookies()).get("appwrite-session");
 
-  if (!session || !session.value) throw new Error("No session");
+  if (!session || !session.value) {
+    console.log("No session cookie found");
+    throw new Error("No session");
+  }
 
-  client.setSession(session.value);
+  try {
+    client.setSession(session.value);
+  } catch (error) {
+    console.error("Failed to set session:", error);
+    throw new Error("Invalid session");
+  }
 
   return {
     get account() {

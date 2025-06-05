@@ -83,15 +83,24 @@ export const verifySecret = async ({
 
     const session = await account.createSession(accountId, password);
 
+    // Configuration des cookies adaptée à la production
+    const isProduction = process.env.NODE_ENV === "production";
+
     (await cookies()).set("appwrite-session", session.secret, {
       path: "/",
       httpOnly: true,
-      sameSite: "strict",
-      secure: true,
+      sameSite: isProduction ? "none" : "strict",
+      secure: isProduction,
+      maxAge: 60 * 60 * 24 * 7, // 7 jours
     });
 
     return parseStringify({ sessionId: session.$id });
   } catch (error) {
+    console.error("Error in verifySecret:", {
+      error: error instanceof Error ? error.message : error,
+      accountId,
+      timestamp: new Date().toISOString(),
+    });
     handleError(error, "Failed to verify OTP");
   }
 };
@@ -108,11 +117,22 @@ export const getCurrentUser = async () => {
       [Query.equal("accountId", result.$id)]
     );
 
-    if (user.total <= 0) return null;
+    if (user.total <= 0) {
+      console.log("User not found in database for accountId:", result.$id);
+      return null;
+    }
 
     return parseStringify(user.documents[0]);
   } catch (error) {
-    console.log(error);
+    // Log détaillé pour le débogage en production
+    console.error("Error in getCurrentUser:", {
+      error: error instanceof Error ? error.message : error,
+      stack: error instanceof Error ? error.stack : undefined,
+      timestamp: new Date().toISOString(),
+    });
+
+    // Retourner null explicitement au lieu d'undefined
+    return null;
   }
 };
 
@@ -135,12 +155,21 @@ export const signInUser = async ({ email }: { email: string }) => {
 
     // User exists, send OTP
     if (existingUser) {
-      await sendEmailOTP({ email });
+      const accountId = await sendEmailOTP({ email });
+      if (!accountId) {
+        throw new Error("Failed to send OTP");
+      }
       return parseStringify({ accountId: existingUser.accountId });
     }
 
+    console.log("User not found for email:", email);
     return parseStringify({ accountId: null, error: "User not found" });
   } catch (error) {
+    console.error("Error in signInUser:", {
+      error: error instanceof Error ? error.message : error,
+      email,
+      timestamp: new Date().toISOString(),
+    });
     handleError(error, "Failed to sign in user");
   }
 };
