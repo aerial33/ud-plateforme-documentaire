@@ -15,14 +15,14 @@ export const navItems = [
     url: "/images",
   },
   {
-    name: "Média",
+    name: "Vidéos",
     icon: "/assets/icons/video.svg",
-    url: "/media",
+    url: "/videos",
   },
   {
-    name: "Autres",
+    name: "Autres Fichiers",
     icon: "/assets/icons/others.svg",
-    url: "/others",
+    url: "/autres-fichiers",
   },
 ];
 
